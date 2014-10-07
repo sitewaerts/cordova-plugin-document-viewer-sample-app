@@ -28,7 +28,7 @@ prepare_app.bat
 run_app.bat
 ```
 
-Whenever you chang something in the apps or the plugins sources:
+Whenever you change something in the apps or the plugins sources:
 ```
 update_app.bat
 run_app.bat
@@ -67,6 +67,9 @@ THE SOFTWARE.
 ## Contact ##
 
 sitewaerts GmbH
+
 Cologne, Germany
+
 http://www.sitewaerts.de
+
 mailto:dev@sitewaerts.de
