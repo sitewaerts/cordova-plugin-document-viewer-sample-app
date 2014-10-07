@@ -3,13 +3,18 @@ Sample App for SitewaertsDocumentViewer Plugin
 
 Sample app for https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
-**This project is currently under development an not yet ready to use.**
+**This project is currently under development and not yet ready to use.**
 
 ## Requirements ##
 
 * iOS 6+
 * Android 4.1+
 * Cordova/Phonegap >=3.5.0
+
+## Installing Cordova ##
+
+https://cordova.apache.org/docs/en/edge/guide_cli_index.md.html#The%20Command-Line%20Interface
+
 
 ## Building the app ##
 
@@ -19,7 +24,7 @@ git clone https://github.com/sitewaerts/cordova-plugin-document-viewer-sample-ap
 git clone https://github.com/sitewaerts/cordova-plugin-document-viewer.git
 ```
 
-## Windows ##
+### Windows ###
 
 Open a command prompt an go to the directory where you checked out the projects
 ```
@@ -34,7 +39,7 @@ update_app.bat
 run_app.bat
 ```
 
-## OSX ##
+### OSX ###
 ...
 
 
