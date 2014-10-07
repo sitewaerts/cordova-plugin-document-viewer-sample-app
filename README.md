@@ -26,14 +26,14 @@ git clone https://github.com/sitewaerts/cordova-plugin-document-viewer.git
 
 ### Windows ###
 
-Open a command prompt an go to the directory where you checked out the projects
+Open a command prompt and go to the directory where you checked out the projects
 ```
 cd cordova-plugin-document-viewer-sample-app
 prepare_app.bat
 run_app.bat
 ```
 
-Whenever you change something in the apps or the plugins sources:
+Whenever you change something in the app or the plugin sources:
 ```
 update_app.bat
 run_app.bat
