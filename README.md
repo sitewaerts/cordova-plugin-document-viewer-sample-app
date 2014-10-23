@@ -24,7 +24,7 @@ git clone https://github.com/sitewaerts/cordova-plugin-document-viewer-sample-ap
 git clone https://github.com/sitewaerts/cordova-plugin-document-viewer.git
 ```
 
-### Windows ###
+### Windows (configured for Android development) ###
 
 Open a command prompt and go to the directory where you checked out the projects
 ```
@@ -39,6 +39,7 @@ update_app.bat
 run_app.bat
 ```
 
-### OSX ###
-...
+### OSX (configured for iOS development) ###
 
+same as above with .sh instead of .bat files
+you may have to execute "chmod +x [filename]" for each of them first
