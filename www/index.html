@@ -284,7 +284,6 @@ function copyFiles(success, error)
                 error
         );
     }
-
     buildAssetEntries(function ()
     {
         buildOtherEntries(success)
@@ -459,7 +458,7 @@ function assertCordova(){
     if(!window["cordova"])
         alert("Cordova not loaded");
     else if (!window.cordova["file"])
-        alert("cordova.file not found. May be you are using the wrong plugoin version?");
+        alert("cordova.file not found. May be you are using the wrong plugin version?");
 }
 
 var cordovaPresent = false;
@@ -472,10 +471,10 @@ document.addEventListener('deviceready', function ()
     assertCordova();
 
     // wait for debugger
-    //alert("Click OK to init App");
+    alert("Click OK to init App");
     $(document).ready(function ()
     {
-        init()
+        init();
     });
 });
 
@@ -488,7 +487,7 @@ setTimeout(function(){
 
     $(document).ready(function ()
     {
-        init()
+        init();
     });
 }, 3000);
 
