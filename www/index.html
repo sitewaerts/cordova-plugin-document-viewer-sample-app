@@ -338,22 +338,32 @@ function createDocumentOpener(file, storage)
 function openDocument(file, storage)
 {
     var url = buildUrl(storage, file);
+    var mimeType = entries[storage][file].mimeType;
+    viewDocument(url, mimeType, storage);
+}
 
+function clickUri(uri)
+{
+    viewDocument(uri, getMimeType(uri), 'click');
+}
+
+function viewDocument(url, mimeType, storage)
+{
     if (!window['SitewaertsDocumentViewer'])
     {
-        window.console.log("Attempting to open '" + url + "'");
-        window.open(file);
+        window.console.log("Attempting to view '" + url + "'");
+        window.open(url);
         return false;
     }
 
-    alert("Attempting to open '" + url + "'");
+    alert("Attempting to view '" + url + "'");
 
     var options = $.extend({}, VIEWER_OPTIONS);
     options.title = url.split('/').pop() + '@' + storage;
 
     SitewaertsDocumentViewer.viewDocument(
             url,
-            entries[storage][file].mimeType,
+            mimeType,
             options,
             function ()
             {
@@ -376,7 +386,7 @@ function openDocument(file, storage)
                             {
                                 window.console.log('successfully installed app');
                                 if (confirm("App installed. Do you want to view the document now?"))
-                                    openDocument(file, storage);
+                                    viewDocument(url, mimeType, storage);
                             },
                             function (error)
                             {
@@ -535,6 +545,13 @@ setTimeout(function(){
     <div id="listing">
 
 
+    </div>
+
+    <div id="anticipated_errors">
+        <h2>Invalid file uri</h2>
+        <ul>
+            <li><a href="#" onclick="clickUri('../missing/notfound.pdf'); return false;">../missing/notfound.pdf</a></li>
+        </ul>
     </div>
 
 </div>
