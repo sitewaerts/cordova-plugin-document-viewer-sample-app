@@ -12,7 +12,7 @@ call cordova plugin add org.apache.cordova.file@1.3.1
 call cordova plugin add org.apache.cordova.file-transfer
 call cordova plugin add %PLUGIN_URL%
 
-call cordova platform add %PLATFORM%
+call cordova platform add %PLATFORM%@%CORDOVA_VERSION%
 
 cd ..\..
 

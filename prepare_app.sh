@@ -26,7 +26,7 @@ cordova plugin add org.apache.cordova.file-transfer
 cordova plugin add $PLUGIN_URL
 
 # add platform
-cordova platform add $PLATFORM
+cordova platform add $PLATFORM@%CORDOVA_VERSION%
 
 # go to root dir
 cd ../..

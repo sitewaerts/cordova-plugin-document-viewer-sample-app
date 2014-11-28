@@ -5,4 +5,5 @@ rem SET PLUGIN_URL=https://github.com/sitewaerts/cordova-plugin-document-viewer
 SET PLUGIN_URL=../../../cordova-plugin-document-viewer
 
 SET PLATFORM=android
+SET CORDOVA_VERSION=3.6.3
 
