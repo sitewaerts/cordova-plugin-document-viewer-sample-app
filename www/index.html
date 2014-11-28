@@ -462,16 +462,38 @@ function showSupportInfo(){
         return;
     }
 
+    var $container = ('#info');
+
+    function appendDeviceInfo(){
+
+        var device = window["device"];
+        if(!device)
+            return;
+
+        var $info = $('<div></div>');
+        var $pre = $('<pre></pre>');
+        $pre.html(JSON.stringify(device));
+        $info.append('<h2>Device</h2>');
+        $info.append($pre);
+        $container.append($info);
+
+    }
+
     SitewaertsDocumentViewer.getSupportInfo(
             function(supportInfo){
+                var $info = $('<div></div>');
                 var $pre = $('<pre></pre>');
                 $pre.html(JSON.stringify(supportInfo));
-                $('#support_info').append($pre);
+                $info.append('<h2>Plugin Support</h2>');
+                $info.append($pre);
+                $container.append($info);
             },
             function(e){
                alert(e);
             }
     );
+
+    appendDeviceInfo();
 
 }
 
@@ -576,8 +598,8 @@ setTimeout(function(){
         </ul>
     </div>
 
-    <div id="support_info">
-        <h2>Plugin Support Info</h2>
+    <div id="info">
+
 
     </div>
 
