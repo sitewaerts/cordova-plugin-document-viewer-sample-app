@@ -455,6 +455,26 @@ function buildFileListing()
     }
 }
 
+function showSupportInfo(){
+
+    if (!window['SitewaertsDocumentViewer'])
+    {
+        return;
+    }
+
+    SitewaertsDocumentViewer.getSupportInfo(
+            function(supportInfo){
+                var $pre = $('<pre></pre>');
+                $pre.html(JSON.stringify(supportInfo));
+                $('#support_info').append($pre);
+            },
+            function(e){
+               alert(e);
+            }
+    );
+
+}
+
 function init()
 {
     copyFiles(
@@ -465,6 +485,8 @@ function init()
             },
             errorHandler
     );
+
+    showSupportInfo();
 }
 
 function assertCordova(){
@@ -552,6 +574,11 @@ setTimeout(function(){
         <ul>
             <li><a href="#" onclick="clickUri('../missing/notfound.pdf'); return false;">../missing/notfound.pdf</a></li>
         </ul>
+    </div>
+
+    <div id="support_info">
+        <h2>Plugin Support Info</h2>
+
     </div>
 
 </div>
