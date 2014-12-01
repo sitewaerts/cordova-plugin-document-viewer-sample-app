@@ -9,7 +9,7 @@ Sample app for https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
 * iOS 6+
 * Android 4.1+
-* Cordova/Phonegap >=3.5.0
+* Cordova/Phonegap >=3.6.0
 
 ## Installing Cordova ##
 
