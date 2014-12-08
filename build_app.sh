@@ -7,7 +7,10 @@ source properties.sh
 cd build/$APP_NAME
 
 # build project (this is required if you want to run the project from Xcode)
-cordova build $PLATFORM
+for p in "${PLATFORMS[@]}"
+do
+	cordova build $p
+done
 
 # go to root dir
 cd ../..

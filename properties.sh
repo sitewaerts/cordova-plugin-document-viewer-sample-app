@@ -9,4 +9,7 @@ PLUGIN_URL="../../../cordova-plugin-document-viewer"
 
 # dieses Script ist für iOS Entwicklung auf OS X
 PLATFORM="ios"
+
+# multiplatform
+PLATFORMS=("android" "ios")
 CORDOVA_VERSION="3.6.3"

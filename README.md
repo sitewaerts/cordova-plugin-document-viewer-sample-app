@@ -39,14 +39,14 @@ update_app.bat
 run_app.bat
 ```
 
-### OSX (configured for iOS development) ###
+### OSX (configured for iOS and Android development) ###
 
 same as above with .sh instead of .bat files
 
 you may have to execute "chmod +x [filename]" for each of them first
 
-if you run the app from xcode but work on html/js/css in root www directory:
+if you run the app from Xcode/Eclipse but work on html/js/css in root www directory:
 
 1. update_app.sh (this reinstalls the linked plugins)
-2. build_app.sh (this migrates changes in project root to the right folder in the Xcode project)
-3. run from Xcode
+2. build_app.sh (this migrates changes in project root to the right folder in the Xcode/Eclipse project)
+3. run from Xcode/Eclipse
