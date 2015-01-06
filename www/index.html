@@ -21,6 +21,18 @@ var VIEWER_OPTIONS = {
 
 };
 
+function buildViewerOptions()
+{
+    var options = $.extend({}, VIEWER_OPTIONS);
+
+    if(window["cordova"])
+    {
+        if (!options.android)
+            options.android = {};
+    }
+    return options;
+}
+
 // list files located in www folder here
 var files = ['test01.pdf', 'test01.docx', 'test01_onepage.pdf', 'test01_twopages.pdf', 'test01_threepages.pdf', 'test01_mixedpages.pdf'];
 
@@ -198,28 +210,28 @@ function copyFiles(success, error)
             return;
         }
 
-        var options = $.extend({}, VIEWER_OPTIONS);
+        var options = buildViewerOptions();
 
         SitewaertsDocumentViewer.canViewDocument(
                 entry.url,
                 entry.mimeType,
                 options,
-                function ()
+                function onPossible()
                 {
                     entry.canView = true;
                     next();
                 },
-                function ()
+                function onMissingApp()
                 {
                     entry.canView = true;
                     next();
                 },
-                function ()
+                function onImpossible()
                 {
                     entry.canView = false;
                     next();
                 },
-                function (error)
+                function onError(error)
                 {
                     window.console.log(error);
                     entry.canView = false;
@@ -358,7 +370,7 @@ function viewDocument(url, mimeType, storage)
 
     alert("Attempting to view '" + url + "'");
 
-    var options = $.extend({}, VIEWER_OPTIONS);
+    var options = buildViewerOptions();
     options.title = url.split('/').pop() + '@' + storage;
 
     SitewaertsDocumentViewer.viewDocument(
