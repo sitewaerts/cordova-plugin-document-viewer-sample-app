@@ -1,6 +1,6 @@
 call properties.bat
 
-copy /Y www\* build\%APP_NAME%\www
+xcopy www build\%APP_NAME%\www  /S /E /Y
 
 cd build\%APP_NAME%
 

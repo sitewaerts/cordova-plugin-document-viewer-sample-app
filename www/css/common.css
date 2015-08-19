@@ -1,0 +1,75 @@
+html, body{
+    padding:0;
+    margin:0;
+}
+
+.viewer_open, .viewer_open *{
+    overflow:hidden;
+}
+
+
+
+.ready {
+     display: none;
+ }
+
+ body.initialized .ready {
+     display: block;
+ }
+
+ body.initialized .loading {
+     display: none;
+ }
+
+ li {
+     margin: 1em;
+ }
+
+ a.disabled {
+     cursor: default;
+     color: gray;
+ }
+
+ .sitewaertsdocumentviewer.windows{
+     width: 100%;
+     height: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+     background-color: darkgray;
+ }
+
+ .sitewaertsdocumentviewer.windows iframe {
+     width: 100%;
+     height: 100%;
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     border: 0;
+ }
+
+ .sitewaertsdocumentviewer.windows .close {
+     display: none;
+ }
+
+
+.outercloseEnabled .sitewaertsdocumentviewer.windows iframe {
+     height: calc(100% - 50px);
+ }
+
+.outercloseEnabled .sitewaertsdocumentviewer.windows .close {
+     width: 40px;
+     height: 40px;
+     position: absolute;
+     top: 0;
+     left: 0;
+     background-color: red;
+ }
+
+.outercloseEnabled .sitewaertsdocumentviewer.windows .close:after {
+     content: "X";
+     width: 100%;
+     line-height: 40px;
+     display: inline-block;
+     text-align: center;
+ }

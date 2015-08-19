@@ -3,13 +3,12 @@ Sample App for SitewaertsDocumentViewer Plugin
 
 Sample app for https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
-**This project is currently under development and not yet ready to use.**
-
 ## Requirements ##
 
 * iOS 6+
 * Android 4.1+
-* Cordova/Phonegap >=3.6.0
+* Windows 8.1
+* Cordova/Phonegap >=3.7.0
 
 ## Installing Cordova ##
 
@@ -24,12 +23,12 @@ git clone https://github.com/sitewaerts/cordova-plugin-document-viewer-sample-ap
 git clone https://github.com/sitewaerts/cordova-plugin-document-viewer.git
 ```
 
-### Windows (configured for Android development) ###
+### Windows (configured for Android or Windows development) ###
 
 Open a command prompt and go to the directory where you checked out the projects
 ```
 cd cordova-plugin-document-viewer-sample-app
-prepare_app.bat
+create_app.bat
 run_app.bat
 ```
 
@@ -43,10 +42,14 @@ run_app.bat
 
 same as above with .sh instead of .bat files
 
-you may have to execute "chmod +x [filename]" for each of them first
+you may have to execute "chmod +x [filename]" for each of the scripts first
 
-if you run the app from Xcode/Eclipse but work on html/js/css in root www directory:
 
-1. update_app.sh (this reinstalls the linked plugins)
-2. build_app.sh (this migrates changes in project root to the right folder in the Xcode/Eclipse project)
-3. run from Xcode/Eclipse
+### Running and Debugging via IDE ###
+
+If you want to run the app from an IDE like Xcode/Eclipse/VisualStudio but work on html/js/css in root www directory:
+
+1. create_app.sh|bat (only once)
+2. update_app.sh|bat (this reinstalls the linked plugins)
+3. prepare_app.sh|bat (this migrates src changes in project root to the folders in the IDE project)
+4. run App from IDE

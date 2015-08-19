@@ -3,35 +3,14 @@
 # set properties
 source properties.sh
 
-# create build dir
-mkdir build
-
 # go to build dir
-cd build
+cd build/$APP_NAME
 
-# remove old app dir
-rm -r $APP_NAME
-
-# recreate app
-cordova create $APP_NAME "test.$APP_NAME" "$APP_NAME" --copy-from ../www
-
-# go to app dir
-cd $APP_NAME
-
-# add plugins
-cordova plugin add org.apache.cordova.console
-cordova plugin add org.apache.cordova.device
-cordova plugin add org.apache.cordova.file@1.3.1
-cordova plugin add org.apache.cordova.file-transfer
-cordova plugin add $PLUGIN_URL
-
-# add platform
+# prepare project (this is required if you want to run the project from Xcode)
 for p in "${PLATFORMS[@]}"
 do
-	cordova platform add $p@$CORDOVA_VERSION
+	cordova prepare $p
 done
 
 # go to root dir
 cd ../..
-
-
