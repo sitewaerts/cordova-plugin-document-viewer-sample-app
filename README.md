@@ -34,7 +34,7 @@ run_app.bat
 
 Whenever you change something in the app or the plugin sources:
 ```
-update_app.bat
+update_plugin.bat
 run_app.bat
 ```
 
@@ -50,6 +50,6 @@ you may have to execute "chmod +x [filename]" for each of the scripts first
 If you want to run the app from an IDE like Xcode/Eclipse/VisualStudio but work on html/js/css in root www directory:
 
 1. create_app.sh|bat (only once)
-2. update_app.sh|bat (this reinstalls the linked plugins)
+2. update_plugin.sh|bat (this reinstalls the linked plugins)
 3. prepare_app.sh|bat (this migrates src changes in project root to the folders in the IDE project)
 4. run App from IDE

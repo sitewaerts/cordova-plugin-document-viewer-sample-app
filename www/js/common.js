@@ -615,6 +615,25 @@ function showSupportInfo()
 
 function init()
 {
+    if(window.WinJS)
+       {
+          // see https://msdn.microsoft.com/en-us/library/windows/apps/hh974768.aspx
+          // see http://caioproiete.net/en/global-exception-handling-in-windows-store-javascript-applications/
+          WinJS.Application.onerror = function(eventInfo)
+          {
+              window.console.error('WinJS.Application.onerror :', eventInfo);
+
+              var detail = eventInfo.detail;
+              var dialog = new Windows.UI.Popups.MessageDialog(
+                      detail.stack, detail.message);
+              dialog.showAsync().done();
+
+              // By returning true, we signal that the exception was handled,
+              // preventing the application from being terminated
+              return true;
+          }
+       }
+
     function prepareDisplay()
     {
         buildFileListing();
