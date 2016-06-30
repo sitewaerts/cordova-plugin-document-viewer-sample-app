@@ -1,26 +1,32 @@
-
 // list files located in www folder here
 var files = [
     'test01.pdf', 'test01.docx', 'test01_onepage.pdf',
     'test01_twopages.pdf', 'test01_threepages.pdf', 'test01_mixedpages.pdf'];
 
 files = files.concat([
-    'fis_01.pdf',
-    'fis_02.pdf',
-    'fis_03.pdf',
-    'fis_04.pdf',
-    'fis_05.pdf',
-    'fis_06.pdf'
+    'private_fis_01.pdf',
+    'private_fis_02.pdf',
+    'private_fis_03.pdf',
+    'private_fis_04.pdf',
+    'private_fis_05.pdf',
+    'private_fis_06.pdf',
+    'private_drop.pdf'
 ]);
 
 
 var nativeAlert = window.alert;
-function doAlert(msg)
+function doAlert(msg, next)
 {
     if (nativeAlert)
+    {
         nativeAlert(msg);
+        if (next)
+            next();
+    }
     else
-        navigator.notification.alert(msg);
+    {
+        navigator.notification.alert(msg, next);
+    }
 }
 window.alert = doAlert;
 
@@ -143,7 +149,7 @@ function getPrivateAppDataRootDirEntry(success, error)
 
     if (window.cordova["file"])
     {
-        // iOS, Android
+        // iOS, Android, Windows
         var path = cordova.file.dataDirectory;
         window.resolveLocalFileSystemURL(
                 path,
@@ -199,7 +205,7 @@ function getSharedAppDataRootDirEntry(success, error)
     {
         // windows
 
-        // windows has only shared data dir (never 9private)
+        // windows has only shared data dir (never private)
 
         window.requestFileSystem(
                 LocalFileSystem.PERSISTENT,
@@ -243,21 +249,46 @@ function copyFiles(success, error)
 
         }
 
+
         var source = buildAssetsUrl(file);
 
-        var dest = concatPath(dir.toURL(), file);
-        window.console.log("copying " + source + " to " + dest);
+        copyViaResolver();
 
-        // not supported on windows: cannot download from ms-appx:// url (only http, https and ftp supported)
 
-        var ft = new FileTransfer();
-
-        ft.download(
+        function copyViaResolver()
+        {
+            // not supported on windows: cannot resolveLocalFileSystemURL from ms-appx:// url (only app-data:// is supported)
+            window.console.log("resolving source " + source);
+            window.resolveLocalFileSystemURL(
                 source,
-                dest,
-                newFileCreated,
-                error
-        );
+                function (entry)
+                {
+                    window.console.log("copying " + entry.toURL() + " to " + concatPath(dir.toURL(), file));
+                    entry.copyTo(dir, file, newFileCreated, error);
+                },
+                function (e)
+                {
+                    window.console.error("cannot resolve source " + source, e);
+                    if(error)
+                        error(e);
+                });
+        }
+
+        function copyViaFileTransfer()
+        {
+        // not supported on windows: cannot download from ms-appx:// url (only http, https and ftp supported)
+            var ft = new FileTransfer();
+            var dest = concatPath(dir.toURL(), file);
+            window.console.log("transfering source " + source + " to " + dest);
+            ft.download(
+                    source,
+                    dest,
+                    newFileCreated,
+                    error
+            );
+        }
+
+
     }
 
     function copyFiles(entries, dir, success)
@@ -463,59 +494,63 @@ function viewDocument(url, mimeType, storage)
         return false;
     }
 
-    alert("Attempting to view '" + url + "'");
+    alert("Attempting to view '" + url + "'", view);
 
-    var options = buildViewerOptions();
-    options.title = url.split('/').pop() + '@' + storage;
+    function view()
+    {
+        var options = buildViewerOptions();
+        options.title = url.split('/').pop() + '@' + storage;
 
-    SitewaertsDocumentViewer.viewDocument(
-            url,
-            mimeType,
-            options,
-            function ()
-            {
-                $('body').addClass('viewer_open');
-
-                // shown
-                window.console.log('document shown');
-
-
-            },
-            function ()
-            {
-                $('body').removeClass('viewer_open');
-                // closed
-                window.console.log('document closed');
-            },
-            function (appId, installer)
-            {
-                $('body').removeClass('viewer_open');
-                // missing app
-                if (confirm("Do you want to install the free PDF Viewer App "
-                        + appId + " for Android?"))
+        SitewaertsDocumentViewer.viewDocument(
+                url,
+                mimeType,
+                options,
+                function ()
                 {
-                    installer(
-                            function ()
-                            {
-                                window.console.log('successfully installed app');
-                                if (confirm("App installed. Do you want to view the document now?"))
-                                    viewDocument(url, mimeType, storage);
-                            },
-                            function (error)
-                            {
-                                window.console.log('cannot install app');
-                                window.console.log(error);
-                            }
-                    );
-                }
-            },
-            function (error)
-            {
-                $('body').removeClass('viewer_open');
-                majorError('cannot view document ' + url, e);
-            }
+                    $('body').addClass('viewer_open');
 
-    );
+                    // shown
+                    window.console.log('document shown');
+
+
+                },
+                function ()
+                {
+                    $('body').removeClass('viewer_open');
+                    // closed
+                    window.console.log('document closed');
+                },
+                function (appId, installer)
+                {
+                    $('body').removeClass('viewer_open');
+                    // missing app
+                    if (confirm("Do you want to install the free PDF Viewer App "
+                            + appId + " for Android?"))
+                    {
+                        installer(
+                                function ()
+                                {
+                                    window.console.log('successfully installed app');
+                                    if (confirm("App installed. Do you want to view the document now?"))
+                                        viewDocument(url, mimeType, storage);
+                                },
+                                function (error)
+                                {
+                                    window.console.log('cannot install app');
+                                    window.console.log(error);
+                                }
+                        );
+                    }
+                },
+                function (error)
+                {
+                    $('body').removeClass('viewer_open');
+                    majorError('cannot view document ' + url, e);
+                }
+
+        );
+    }
+
     return false;
 }
 
@@ -584,13 +619,19 @@ function showSupportInfo()
         if (!device)
             return;
 
+        showJSONInfo(device, "Device");
+        showJSONInfo(cordova.require("cordova/plugin_list").metadata, "Plugins");
+
+    }
+
+    function showJSONInfo(json, title)
+    {
         var $info = $('<div></div>');
         var $pre = $('<pre></pre>');
-        $pre.html(JSON.stringify(device, null, 5));
-        $info.append('<h2>Device</h2>');
+        $pre.html(JSON.stringify(json, null, 5));
+        $info.append('<h2>' + title + '</h2>');
         $info.append($pre);
         $container.append($info);
-
     }
 
     SitewaertsDocumentViewer.getSupportInfo(
@@ -615,24 +656,24 @@ function showSupportInfo()
 
 function init()
 {
-    if(window.WinJS)
-       {
-          // see https://msdn.microsoft.com/en-us/library/windows/apps/hh974768.aspx
-          // see http://caioproiete.net/en/global-exception-handling-in-windows-store-javascript-applications/
-          WinJS.Application.onerror = function(eventInfo)
-          {
-              window.console.error('WinJS.Application.onerror :', eventInfo);
+    if (window.WinJS)
+    {
+        // see https://msdn.microsoft.com/en-us/library/windows/apps/hh974768.aspx
+        // see http://caioproiete.net/en/global-exception-handling-in-windows-store-javascript-applications/
+        WinJS.Application.onerror = function (eventInfo)
+        {
+            window.console.error('WinJS.Application.onerror :', eventInfo);
 
-              var detail = eventInfo.detail;
-              var dialog = new Windows.UI.Popups.MessageDialog(
-                      detail.stack, detail.message);
-              dialog.showAsync().done();
+            var detail = eventInfo.detail;
+            var dialog = new Windows.UI.Popups.MessageDialog(
+                    detail.stack, detail.message);
+            dialog.showAsync().done();
 
-              // By returning true, we signal that the exception was handled,
-              // preventing the application from being terminated
-              return true;
-          }
-       }
+            // By returning true, we signal that the exception was handled,
+            // preventing the application from being terminated
+            return true;
+        }
+    }
 
     function prepareDisplay()
     {
@@ -655,9 +696,29 @@ function init()
 function assertCordova()
 {
     if (!window["cordova"])
+    {
         majorError("Cordova not loaded");
-    else if (!window.cordova["file"])
-        alert("cordova.file not found. May be you are using the wrong plugin version or this is a windows machine.");
+        return;
+    }
+
+    if (!window.cordova["file"])
+    {
+        // HACK
+        // see https://github.com/apache/cordova-plugin-file
+        // see http://stackoverflow.com/questions/26910891/cordova-file-is-undefined-for-windows-wp8
+        // see https://msdn.microsoft.com/en-us/library/windows/apps/jj655406.aspx
+        if (window.device.platform == 'windows')
+        {
+            window.console.error("cordova.file not found because this is a windows machine.");
+            window.cordova.file = {
+                dataDirectory: 'ms-appdata:///local/',
+                cacheDirectory: 'ms-appdata:///temp/',
+                documentsDirectory: 'ms-appdata:///local/'
+            }
+        }
+        else
+            alert("cordova.file not found. May be you are using the wrong plugin version.");
+    }
 }
 
 var cordovaPresent = false;
@@ -670,11 +731,15 @@ document.addEventListener('deviceready', function ()
     assertCordova();
 
     // wait for debugger
-    alert("Click OK to init App");
-    $(document).ready(function ()
+    alert("Click OK to init App", start);
+
+    function start()
     {
-        init();
-    });
+        $(document).ready(function ()
+        {
+            init();
+        });
+    }
 });
 
 
@@ -687,6 +752,6 @@ setTimeout(function ()
 
     $(document).ready(function ()
     {
-        init();
+        //init();
     });
 }, 3000);
