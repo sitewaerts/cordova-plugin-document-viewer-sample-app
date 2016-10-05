@@ -9,10 +9,10 @@ rem SET PLUGIN_URL="c:/dev/schauerte/pdf/cordova-plugin-document-viewer"
 
 
 rem SET PLATFORM=android
-rem SET CORDOVA_VERSION=3.7.0
+rem SET CORDOVA_VERSION=5.2.2
 
 SET PLATFORM=windows
-SET CORDOVA_VERSION=4.4.0
+SET CORDOVA_VERSION=4.4.2
 
 
 

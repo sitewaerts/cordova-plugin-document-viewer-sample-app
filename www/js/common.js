@@ -545,7 +545,7 @@ function viewDocument(url, mimeType, storage)
                 function (error)
                 {
                     $('body').removeClass('viewer_open');
-                    majorError('cannot view document ' + url, e);
+                    majorError('cannot view document ' + url, error);
                 }
 
         );

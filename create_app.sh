@@ -13,7 +13,7 @@ cd build
 rm -r $APP_NAME
 
 # recreate app
-cordova create $APP_NAME "test.$APP_NAME" "$APP_NAME" --copy-from ../www
+cordova create $APP_NAME "test.$APP_NAME" "$APP_NAME" --template ../www
 
 # go to app dir
 cd $APP_NAME

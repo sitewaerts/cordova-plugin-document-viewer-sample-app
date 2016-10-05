@@ -2,8 +2,8 @@ call properties.bat
 
 mkdir build
 cd build
-rmdir /S /Q %APP_NAME%
-call cordova create %APP_NAME% "test.%APP_NAME%" "%APP_NAME%" --copy-from ../www
+rd /S /Q %APP_NAME%
+call cordova create %APP_NAME% "test.%APP_NAME%" "%APP_NAME%" --template ../www
 cd %APP_NAME%
 
 call cordova plugin add cordova-plugin-console
