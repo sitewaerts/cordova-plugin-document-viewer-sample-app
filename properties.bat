@@ -1,6 +1,6 @@
 SET APP_NAME=PDFViewerSampleApp
 
-SET PLUGIN_ID=de.sitewaerts.cordova.documentviewer
+SET PLUGIN_ID=cordova-plugin-document-viewer
 rem SET PLUGIN_URL=https://github.com/sitewaerts/cordova-plugin-document-viewer
 rem SET PLUGIN_URL=../../../cordova-plugin-document-viewer
 CALL :NORMALIZEPATH PLUGIN_URL "../cordova-plugin-document-viewer"

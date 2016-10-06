@@ -3,7 +3,7 @@
 # Variablen setzen
 APP_NAME="PDFViewerSampleApp"
 
-PLUGIN_ID="de.sitewaerts.cordova.documentviewer"
+PLUGIN_ID="cordova-plugin-document-viewer"
 #PLUGIN_URL="https://github.com/sitewaerts/cordova-plugin-document-viewer"
 PLUGIN_URL="../../../cordova-plugin-document-viewer"
 
