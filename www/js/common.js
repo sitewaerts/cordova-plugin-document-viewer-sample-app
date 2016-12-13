@@ -1,7 +1,7 @@
 // list files located in www folder here
 var files = [
     'test01.pdf', 'test01.docx', 'test01_onepage.pdf',
-    'test01_twopages.pdf', 'test01_threepages.pdf', 'test01_mixedpages.pdf'];
+    'test01_twopages.pdf', 'test01_threepages.pdf', 'test01_mixedpages.pdf', 'test01_manypages.pdf'];
 
 files = files.concat([
     'private_fis_01.pdf',
