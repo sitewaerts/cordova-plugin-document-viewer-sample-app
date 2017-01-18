@@ -25,6 +25,8 @@ git clone https://github.com/sitewaerts/cordova-plugin-document-viewer.git
 
 ### Windows (configured for Android or Windows development) ###
 
+JAVA_HOME should point to a jdk 1.8 directory.
+
 Open a command prompt and go to the directory where you checked out the projects
 ```
 cd cordova-plugin-document-viewer-sample-app
