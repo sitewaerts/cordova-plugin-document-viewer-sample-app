@@ -20,6 +20,7 @@ html, body{
 
 .ready {
      display: none;
+    overflow-y: auto;
  }
 
  body.initialized .ready {
