@@ -3,6 +3,8 @@
 # set properties
 source properties.sh
 
+cp -r www/* build/$APP_NAME/www/
+
 # go to build dir
 cd build/$APP_NAME
 

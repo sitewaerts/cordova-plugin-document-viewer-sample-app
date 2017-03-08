@@ -8,11 +8,11 @@ rem echo PLUGIN_URL : %PLUGIN_URL%
 rem SET PLUGIN_URL="c:/dev/schauerte/pdf/cordova-plugin-document-viewer"
 
 
-rem SET PLATFORM=android
-rem SET CORDOVA_VERSION=5.2.2
+SET PLATFORM=android
+SET CORDOVA_VERSION=5.2.2
 
-SET PLATFORM=windows
-SET CORDOVA_VERSION=4.4.3
+rem SET PLATFORM=windows
+rem SET CORDOVA_VERSION=4.4.3
 
 
 

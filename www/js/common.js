@@ -1,7 +1,12 @@
 // list files located in www folder here
 var files = [
-    'test01.pdf', 'test01.docx', 'test01_onepage.pdf',
-    'test01_twopages.pdf', 'test01_threepages.pdf', 'test01_mixedpages.pdf', 'test01_manypages.pdf'];
+    'test01.pdf',
+    'test01.docx',
+    'test01_onepage.pdf',
+    'test01_twopages.pdf',
+    'test01_threepages.pdf',
+    'test01_mixedpages.pdf',
+    'test01_manypages.pdf'];
 
 files = files.concat([
     'private_fis_01.pdf',
@@ -10,6 +15,7 @@ files = files.concat([
     'private_fis_04.pdf',
     'private_fis_05.pdf',
     'private_fis_06.pdf',
+    'private_fis_07.pdf',
     'private_drop.pdf'
 ]);
 
@@ -58,6 +64,9 @@ var VIEWER_OPTIONS = {
     },
     search: {
         enabled: false
+    },
+    autoClose: {
+        onPause: false
     }
 };
 
@@ -138,12 +147,12 @@ function getPrivateAppDataRootDirEntry(success, error)
     {
         window.console.log(
                 "returning "
-                        + path
-                        + " / "
-                        + dir.nativeURL
-                        + " / "
-                        + dir.toURL()
-                        + " as private data dir");
+                + path
+                + " / "
+                + dir.nativeURL
+                + " / "
+                + dir.toURL()
+                + " as private data dir");
         success(dir);
     }
 
@@ -177,12 +186,12 @@ function getSharedAppDataRootDirEntry(success, error)
     {
         window.console.log(
                 "returning "
-                        + path
-                        + " / "
-                        + dir.nativeURL
-                        + " / "
-                        + dir.toURL()
-                        + " as shared data dir");
+                + path
+                + " / "
+                + dir.nativeURL
+                + " / "
+                + dir.toURL()
+                + " as shared data dir");
         success(dir);
     }
 
@@ -222,7 +231,6 @@ function getSharedAppDataRootDirEntry(success, error)
                     window.console.error(e, details);
                     error(e, details);
                 }
-
         );
     }
 }
@@ -240,7 +248,11 @@ function copyFiles(success, error)
     {
         function newFileCreated(entry)
         {
-            var storageEntry = {url: entry.nativeURL, mimeType: getMimeType(file), entry: entry};
+            var storageEntry = {
+                url: entry.nativeURL,
+                mimeType: getMimeType(file),
+                entry: entry
+            };
             setViewerSupport(storageEntry, function ()
             {
                 entries[file] = storageEntry;
@@ -260,23 +272,25 @@ function copyFiles(success, error)
             // not supported on windows: cannot resolveLocalFileSystemURL from ms-appx:// url (only app-data:// is supported)
             window.console.log("resolving source " + source);
             window.resolveLocalFileSystemURL(
-                source,
-                function (entry)
-                {
-                    window.console.log("copying " + entry.toURL() + " to " + concatPath(dir.toURL(), file));
-                    entry.copyTo(dir, file, newFileCreated, error);
-                },
-                function (e)
-                {
-                    window.console.error("cannot resolve source " + source, e);
-                    if(error)
-                        error(e);
-                });
+                    source,
+                    function (entry)
+                    {
+                        window.console.log("copying " + entry.toURL() + " to "
+                                + concatPath(dir.toURL(), file));
+                        entry.copyTo(dir, file, newFileCreated, error);
+                    },
+                    function (e)
+                    {
+                        window.console.error("cannot resolve source " + source,
+                                e);
+                        if (error)
+                            error(e);
+                    });
         }
 
         function copyViaFileTransfer()
         {
-        // not supported on windows: cannot download from ms-appx:// url (only http, https and ftp supported)
+            // not supported on windows: cannot download from ms-appx:// url (only http, https and ftp supported)
             var ft = new FileTransfer();
             var dest = concatPath(dir.toURL(), file);
             window.console.log("transfering source " + source + " to " + dest);
@@ -363,7 +377,10 @@ function copyFiles(success, error)
             }
 
             var file = files[idx];
-            var entry = {url: buildAssetsUrl(file), mimeType: getMimeType(file)};
+            var entry = {
+                url: buildAssetsUrl(file),
+                mimeType: getMimeType(file)
+            };
 
             setViewerSupport(entry, function ()
             {
@@ -385,7 +402,8 @@ function copyFiles(success, error)
                     {
                         if (!dir)
                         {
-                            window.console.log("no private directory available");
+                            window.console.log(
+                                    "no private directory available");
                             next();
                         }
                         else
@@ -496,8 +514,27 @@ function viewDocument(url, mimeType, storage)
 
     alert("Attempting to view '" + url + "'", view);
 
+
     function view()
     {
+        var _close;
+
+        function onShow(close)
+        {
+
+            $('body').addClass('viewer_open');
+            // shown
+            window.console.log('document shown');
+        }
+
+        function onClose()
+        {
+            $('body').removeClass('viewer_open');
+            // closed
+            window.console.log('document closed');
+        }
+
+
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
 
@@ -505,32 +542,20 @@ function viewDocument(url, mimeType, storage)
                 url,
                 mimeType,
                 options,
-                function ()
-                {
-                    $('body').addClass('viewer_open');
-
-                    // shown
-                    window.console.log('document shown');
-
-
-                },
-                function ()
-                {
-                    $('body').removeClass('viewer_open');
-                    // closed
-                    window.console.log('document closed');
-                },
+                onShow,
+                onClose,
                 function (appId, installer)
                 {
                     $('body').removeClass('viewer_open');
                     // missing app
                     if (confirm("Do you want to install the free PDF Viewer App "
-                            + appId + " for Android?"))
+                                    + appId + " for Android?"))
                     {
                         installer(
                                 function ()
                                 {
-                                    window.console.log('successfully installed app');
+                                    window.console.log(
+                                            'successfully installed app');
                                     if (confirm("App installed. Do you want to view the document now?"))
                                         viewDocument(url, mimeType, storage);
                                 },
@@ -547,7 +572,6 @@ function viewDocument(url, mimeType, storage)
                     $('body').removeClass('viewer_open');
                     majorError('cannot view document ' + url, error);
                 }
-
         );
     }
 
@@ -620,7 +644,8 @@ function showSupportInfo()
             return;
 
         showJSONInfo(device, "Device");
-        showJSONInfo(cordova.require("cordova/plugin_list").metadata, "Plugins");
+        showJSONInfo(cordova.require("cordova/plugin_list").metadata,
+                "Plugins");
 
     }
 
@@ -709,7 +734,8 @@ function assertCordova()
         // see https://msdn.microsoft.com/en-us/library/windows/apps/jj655406.aspx
         if (window.device.platform == 'windows')
         {
-            window.console.error("cordova.file not found because this is a windows machine.");
+            window.console.error(
+                    "cordova.file not found because this is a windows machine.");
             window.cordova.file = {
                 dataDirectory: 'ms-appdata:///local/',
                 cacheDirectory: 'ms-appdata:///temp/',
