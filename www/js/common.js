@@ -6,7 +6,8 @@ var files = [
     'test01_twopages.pdf',
     'test01_threepages.pdf',
     'test01_mixedpages.pdf',
-    'test01_manypages.pdf'];
+    'test01_manypages.pdf',
+    'test01_pdfwithlinks.pdf'];
 
 files = files.concat([
     'private_fis_01.pdf',
