@@ -572,6 +572,9 @@ function viewDocument(url, mimeType, storage)
                 {
                     $('body').removeClass('viewer_open');
                     majorError('cannot view document ' + url, error);
+                },
+                function(link) {
+                    return confirm("The link is:\n" + link + "\nMark as handled?");
                 }
         );
     }
