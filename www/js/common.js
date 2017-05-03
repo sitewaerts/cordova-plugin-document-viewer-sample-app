@@ -538,6 +538,7 @@ function viewDocument(url, mimeType, storage)
 
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
+        options.linkPattern = /^\//;
 
         SitewaertsDocumentViewer.viewDocument(
                 url,
