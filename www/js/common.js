@@ -20,6 +20,13 @@ files = files.concat([
 ]);
 
 
+var autoCloseTimeoutSeconds = 0;
+
+
+
+var _sdv;
+
+
 var nativeAlert = window.alert;
 function doAlert(msg, next)
 {
@@ -99,7 +106,7 @@ if (typeof String.prototype.contains === 'undefined')
 {
     String.prototype.contains = function (str)
     {
-        return this.indexOf(str) != -1;
+        return this.indexOf(str) !== -1;
     };
 }
 
@@ -119,7 +126,7 @@ if (typeof String.prototype.startsWith === 'undefined')
     {
         if (!str)
             return false;
-        return this.indexOf(str, 0) == 0;
+        return this.indexOf(str, 0) === 0;
     };
 }
 
@@ -327,7 +334,7 @@ function copyFiles(success, error)
 
     function setViewerSupport(entry, next)
     {
-        if (!window['SitewaertsDocumentViewer'])
+        if (!_sdv)
         {
             entry.canView = null;
             next();
@@ -336,7 +343,7 @@ function copyFiles(success, error)
 
         var options = buildViewerOptions();
 
-        SitewaertsDocumentViewer.canViewDocument(
+        _sdv.canViewDocument(
                 entry.url,
                 entry.mimeType,
                 options,
@@ -505,7 +512,7 @@ function clickUri(uri)
 
 function viewDocument(url, mimeType, storage)
 {
-    if (!window['SitewaertsDocumentViewer'])
+    if (!_sdv)
     {
         window.console.log("Attempting to view '" + url + "'");
         window.open(url);
@@ -538,7 +545,7 @@ function viewDocument(url, mimeType, storage)
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
 
-        SitewaertsDocumentViewer.viewDocument(
+        _sdv.viewDocument(
                 url,
                 mimeType,
                 options,
@@ -603,7 +610,7 @@ function buildFileListing()
             var $a = $('<a>' + file + '</a>');
             $a.attr('href', '#');
             $a.attr('title', entry.url);
-            if (entry.canView == null || entry.canView == true)
+            if (entry.canView == null || entry.canView === true)
             {
                 $a.click(createDocumentOpener(file, fileLocation));
             }
@@ -629,7 +636,7 @@ function buildFileListing()
 function showSupportInfo()
 {
 
-    if (!window['SitewaertsDocumentViewer'])
+    if (!_sdv)
     {
         return;
     }
@@ -659,7 +666,7 @@ function showSupportInfo()
         $container.append($info);
     }
 
-    SitewaertsDocumentViewer.getSupportInfo(
+    _sdv.getSupportInfo(
             function (supportInfo)
             {
                 var $info = $('<div></div>');
@@ -726,6 +733,18 @@ function assertCordova()
         return;
     }
 
+    if (!window.cordova["plugins"])
+    {
+        majorError("Cordova plugins not loaded");
+        return;
+    }
+
+    if (!window.cordova.plugins["SitewaertsDocumentViewer"])
+    {
+        majorError("Cordova plugin SitewaertsDocumentViewer not loaded");
+        return;
+    }
+
     if (!window.cordova["file"])
     {
         // HACK
@@ -751,10 +770,13 @@ var cordovaPresent = false;
 
 document.addEventListener('deviceready', function ()
 {
-    cordovaPresent = true;
-    $('body').removeClass('initialized');
-
     assertCordova();
+
+    cordovaPresent = true;
+
+    _sdv = cordova.plugins.SitewaertsDocumentViewer;
+
+    $('body').removeClass('initialized');
 
     // wait for debugger
     alert("Click OK to init App", start);
@@ -773,7 +795,7 @@ document.addEventListener('deviceready', function ()
 setTimeout(function ()
 {
 
-    if (cordovaPresent == true)
+    if (cordovaPresent === true)
         return;
 
     $(document).ready(function ()

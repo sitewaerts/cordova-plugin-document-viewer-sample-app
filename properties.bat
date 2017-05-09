@@ -4,12 +4,12 @@ SET PLUGIN_ID=cordova-plugin-document-viewer
 rem SET PLUGIN_URL=https://github.com/sitewaerts/cordova-plugin-document-viewer
 rem SET PLUGIN_URL=../../../cordova-plugin-document-viewer
 CALL :NORMALIZEPATH PLUGIN_URL "../cordova-plugin-document-viewer"
-rem echo PLUGIN_URL : %PLUGIN_URL%
+echo PLUGIN_URL : %PLUGIN_URL%
 rem SET PLUGIN_URL="c:/dev/schauerte/pdf/cordova-plugin-document-viewer"
 
 
 SET PLATFORM=android
-SET CORDOVA_VERSION=5.2.2
+SET CORDOVA_VERSION=6.2.2
 
 rem SET PLATFORM=windows
 rem SET CORDOVA_VERSION=4.4.3
