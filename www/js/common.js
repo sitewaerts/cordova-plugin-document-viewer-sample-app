@@ -559,7 +559,29 @@ function viewDocument(url, mimeType, storage)
 
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
-        options.linkPattern = /^\//;
+        options.linkHandlers = [
+            {
+                pattern: '^\/',
+                close: false,
+                handler: function (link) {
+                    alert('This handler should not be called because there is another handler with the same pattern that comes after it.');
+                }
+            },
+            {
+                pattern: '^\/',
+                close: false,
+                handler: function (link) {
+                    alert('The link is:\n' + link);
+                }
+            },
+            {
+                pattern: '^\/order',
+                close: false,
+                handler: function (link) {
+                    alert('This handler should not be called because there is another handler that matches all the same links that comes before it.');
+                }
+            }
+        ];
 
         _sdv.viewDocument(
                 url,
@@ -594,15 +616,6 @@ function viewDocument(url, mimeType, storage)
                 {
                     $('body').removeClass('viewer_open');
                     majorError('cannot view document ' + url, error);
-                },
-                function (link)
-                {
-                    if (confirm("The link is:\n" + link + "\nMark as handled?"))
-                    {
-                        _sdv.closeDocument();
-                        return true;
-                    }
-                    return false;
                 }
         );
     }
