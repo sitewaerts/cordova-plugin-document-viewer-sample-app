@@ -564,14 +564,14 @@ function viewDocument(url, mimeType, storage)
                 pattern: '^\/',
                 close: false,
                 handler: function (link) {
-                    alert('This handler should not be called because there is another handler with the same pattern that comes after it.');
+                    alert('The link is:\n' + link);
                 }
             },
             {
                 pattern: '^\/',
                 close: false,
                 handler: function (link) {
-                    alert('The link is:\n' + link);
+                    alert('This handler should not be called because there is another handler with the same pattern that comes before it.');
                 }
             },
             {
