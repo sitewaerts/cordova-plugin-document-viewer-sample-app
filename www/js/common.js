@@ -580,6 +580,13 @@ function viewDocument(url, mimeType, storage)
                 handler: function (link) {
                     alert('This handler should not be called because there is another handler that matches all the same links that comes before it.');
                 }
+            },
+            {
+                pattern: '[\s\S]*',
+                close: true,
+                handler: function (link) {
+                    // catch-all handler demonstrating document close and regex pattern precedence
+                }
             }
         ];
 
