@@ -6,7 +6,8 @@ var files = [
     'test01_twopages.pdf',
     'test01_threepages.pdf',
     'test01_mixedpages.pdf',
-    'test01_manypages.pdf'];
+    'test01_manypages.pdf',
+    'test01_pdfwithlinks.pdf'];
 
 files = files.concat([
     'private_fis_01.pdf',
@@ -524,18 +525,32 @@ function viewDocument(url, mimeType, storage)
 
     function view()
     {
-        var _close;
+        var _autoClose;
 
-        function onShow(close)
+        function onShow()
         {
-
             $('body').addClass('viewer_open');
             // shown
             window.console.log('document shown');
+
+            if (autoCloseTimeoutSeconds > 0)
+            {
+                _autoClose = setTimeout(
+                        function ()
+                        {
+                            _sdv.closeDocument();
+                        }, autoCloseTimeoutSeconds * 1000);
+            }
         }
 
         function onClose()
         {
+            if (_autoClose)
+            {
+                clearTimeout(_autoClose);
+                _autoClose = null;
+            }
+
             $('body').removeClass('viewer_open');
             // closed
             window.console.log('document closed');
@@ -544,6 +559,36 @@ function viewDocument(url, mimeType, storage)
 
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
+        var linkHandlers = [
+            {
+                pattern: '^\/',
+                close: false,
+                handler: function (link) {
+                    alert('link handler called with link: "' + link + '"');
+                }
+            },
+            {
+                pattern: '^\/',
+                close: false,
+                handler: function (link) {
+                    alert('This handler should not be called because a prior handler should already have matched.');
+                }
+            },
+            {
+                pattern: '^\/order',
+                close: false,
+                handler: function (link) {
+                    alert('This handler should not be called because a prior handler should already have matched.');
+                }
+            },
+            {
+                pattern: '[\s\S]*',
+                close: true,
+                handler: function (link) {
+                    // catch-all handler demonstrating document close and regex pattern precedence
+                }
+            }
+        ];
 
         _sdv.viewDocument(
                 url,
@@ -578,7 +623,8 @@ function viewDocument(url, mimeType, storage)
                 {
                     $('body').removeClass('viewer_open');
                     majorError('cannot view document ' + url, error);
-                }
+                },
+                linkHandlers
         );
     }
 
@@ -751,7 +797,7 @@ function assertCordova()
         // see https://github.com/apache/cordova-plugin-file
         // see http://stackoverflow.com/questions/26910891/cordova-file-is-undefined-for-windows-wp8
         // see https://msdn.microsoft.com/en-us/library/windows/apps/jj655406.aspx
-        if (window.device.platform == 'windows')
+        if (window.device.platform === 'windows')
         {
             window.console.error(
                     "cordova.file not found because this is a windows machine.");
