@@ -538,6 +538,7 @@ function viewDocument(url, mimeType, storage)
                 _autoClose = setTimeout(
                         function ()
                         {
+                            _autoClose = null;
                             _sdv.closeDocument();
                         }, autoCloseTimeoutSeconds * 1000);
             }
