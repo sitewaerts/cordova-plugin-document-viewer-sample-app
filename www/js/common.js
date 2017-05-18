@@ -107,7 +107,7 @@ if (typeof String.prototype.contains === 'undefined')
 {
     String.prototype.contains = function (str)
     {
-        return this.indexOf(str) != -1;
+        return this.indexOf(str) !== -1;
     };
 }
 
@@ -127,7 +127,7 @@ if (typeof String.prototype.startsWith === 'undefined')
     {
         if (!str)
             return false;
-        return this.indexOf(str, 0) == 0;
+        return this.indexOf(str, 0) === 0;
     };
 }
 
@@ -559,26 +559,26 @@ function viewDocument(url, mimeType, storage)
 
         var options = buildViewerOptions();
         options.title = url.split('/').pop() + '@' + storage;
-        options.linkHandlers = [
+        var linkHandlers = [
             {
                 pattern: '^\/',
                 close: false,
                 handler: function (link) {
-                    alert('The link is:\n' + link);
+                    alert('link handler called with link: "' + link + '"');
                 }
             },
             {
                 pattern: '^\/',
                 close: false,
                 handler: function (link) {
-                    alert('This handler should not be called because there is another handler with the same pattern that comes before it.');
+                    alert('This handler should not be called because a prior handler should already have matched.');
                 }
             },
             {
                 pattern: '^\/order',
                 close: false,
                 handler: function (link) {
-                    alert('This handler should not be called because there is another handler that matches all the same links that comes before it.');
+                    alert('This handler should not be called because a prior handler should already have matched.');
                 }
             },
             {
@@ -623,7 +623,8 @@ function viewDocument(url, mimeType, storage)
                 {
                     $('body').removeClass('viewer_open');
                     majorError('cannot view document ' + url, error);
-                }
+                },
+                linkHandlers
         );
     }
 
