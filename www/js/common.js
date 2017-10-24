@@ -7,7 +7,8 @@ var files = [
     'test01_threepages.pdf',
     'test01_mixedpages.pdf',
     'test01_manypages.pdf',
-    'test01_pdfwithlinks.pdf'];
+    'test01_withlinks.pdf',
+    'test01_withmanylinks.pdf'];
 
 files = files.concat([
     'private_fis_01.pdf',
@@ -580,6 +581,13 @@ function viewDocument(url, mimeType, storage)
                 close: false,
                 handler: function (link) {
                     alert('This handler should not be called because a prior handler should already have matched.');
+                }
+            },
+            {
+                pattern: '^https?://',
+                close: false,
+                handler: function (link) {
+                    alert('http link: "' + link + '"');
                 }
             },
             {
