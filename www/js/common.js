@@ -277,7 +277,7 @@ function copyFiles(success, error)
 
         function copyViaResolver()
         {
-            // not supported on windows: cannot resolveLocalFileSystemURL from ms-appx:// url (only app-data:// is supported)
+            // not supported on windows: cannot resolveLocalFileSystemURL from ms-appx:// url (only ms-appdata:// is supported)
             window.console.log("resolving source " + source);
             window.resolveLocalFileSystemURL(
                     source,

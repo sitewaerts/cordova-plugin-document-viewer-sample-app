@@ -1,85 +1,136 @@
-html{
-    touch-action: none;
-}
-
-*{
+* {
     zoom: 1;
     -ms-content-zooming: none;
 }
 
-html, body{
-    padding:0;
-    margin:0;
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
-
-.viewer_open, .viewer_open *{
-    overflow:hidden;
-}
-
-
 
 .ready {
-     display: none;
-    overflow-y: auto;
- }
+    display: none;
+    overflow: auto;
+    touch-action: pan-y pan-x;
+    margin: 1em;
+    height : calc(100% - 2em);
+}
 
- body.initialized .ready {
-     display: block;
- }
+body.initialized .ready {
+    display: block;
+}
 
- body.initialized .loading {
-     display: none;
- }
+body.initialized .loading {
+    display: none;
+}
 
- li {
-     margin: 1em;
- }
+li {
+    margin: 1em;
+}
 
- a.disabled {
-     cursor: default;
-     color: gray;
- }
+a.disabled {
+    cursor: default;
+    color: gray;
+}
 
- .sitewaertsdocumentviewer.windows{
-     width: 100%;
-     height: 100%;
-     position: absolute;
-     top: 0;
-     left: 0;
-     background-color: darkgray;
- }
+.sitewaertsdocumentviewer.windows {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: darkgray;
+}
 
- .sitewaertsdocumentviewer.windows iframe {
-     width: 100%;
-     height: 100%;
-     position: absolute;
-     bottom: 0;
-     left: 0;
-     border: 0;
- }
+.sitewaertsdocumentviewer.windows iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border: 0;
+}
 
- .sitewaertsdocumentviewer.windows .close {
-     display: none;
- }
-
+.sitewaertsdocumentviewer.windows .close {
+    display: none;
+}
 
 .outercloseEnabled .sitewaertsdocumentviewer.windows iframe {
-     height: calc(100% - 50px);
- }
+    height: calc(100% - 50px);
+}
 
 .outercloseEnabled .sitewaertsdocumentviewer.windows .close {
-     width: 40px;
-     height: 40px;
-     position: absolute;
-     top: 0;
-     left: 0;
-     background-color: red;
- }
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+}
 
 .outercloseEnabled .sitewaertsdocumentviewer.windows .close:after {
-     content: "X";
-     width: 100%;
-     line-height: 40px;
-     display: inline-block;
-     text-align: center;
- }
+    content: "X";
+    width: 100%;
+    line-height: 40px;
+    display: inline-block;
+    text-align: center;
+}
+
+output {
+    display: block;
+    padding: 1em;
+    font-size: 0.75em;
+    background: #ddd;
+    height: 20em;
+    overflow: auto;
+    touch-action: pan-y;
+    line-height: 1;
+}
+
+output strong {
+    color: #f00;
+    text-decoration: underline;
+}
+
+button {
+    width: 100%;
+    height: 4rem;
+    margin: 0 0 1rem;
+    padding: 0.15rem 1.5rem;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font: 1.6rem/3.8rem Arial, Sans-serif;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #0099e5;
+    border: 1px solid #06A;
+    border-radius: 0.3rem;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    transition: color .1s linear;
+}
+
+button:focus, button:hover {
+    background-color: #0AF;
+}
+
+button:active {
+    background-color: #0099e5;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15) inset;
+}
+
+button::-moz-focus-inner {
+    border: none;
+    outline: none;
+}
