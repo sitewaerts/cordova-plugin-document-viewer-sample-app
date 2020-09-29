@@ -2,7 +2,7 @@ call properties.bat
 
 mkdir build
 cd build
-rd /S /Q %APP_NAME%
+if exist "%APP_NAME%\" rd /S /Q %APP_NAME%
 call cordova create %APP_NAME% "test.%APP_NAME%" "%APP_NAME%" --template ../www
 cd %APP_NAME%
 
