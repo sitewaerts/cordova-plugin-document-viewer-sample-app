@@ -1,6 +1,8 @@
 Sample App for SitewaertsDocumentViewer Plugin
 ============================
 
+!!! This plugin is no longer maintained. For a cross platform pdf viewer take a look at [pdf.js][PDFJS] !!!
+
 Sample app for https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
 ## Requirements ##
@@ -55,3 +57,6 @@ If you want to run the app from an IDE like Xcode/Eclipse/VisualStudio but work 
 2. update_app.sh|bat (this reinstalls the linked plugins)
 3. prepare_app.sh|bat (this migrates src changes in project root to the folders in the IDE project)
 4. run App from IDE
+
+
+[PDFJS]: https://mozilla.github.io/pdf.js/
