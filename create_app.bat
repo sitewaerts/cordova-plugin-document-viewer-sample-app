@@ -9,7 +9,7 @@ if not exist "%APP_NAME%\" echo "cannot create cordova app" && goto end
 
 pushd %APP_NAME%
 
-call cordova plugin add cordova-plugin-console
+rem call cordova plugin add cordova-plugin-console
 call cordova plugin add cordova-plugin-device
 call cordova plugin add cordova-plugin-dialogs
 call cordova plugin add cordova-plugin-file
